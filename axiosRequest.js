@@ -1,14 +1,32 @@
-const axios  = require("axios");
+const axios = require("axios");
+const fs = require("fs");
 
-const retrieveTikaInformation = async () => {
+const filePath = "C:/Users/katoc/Downloads/important.docx";
+
+const retrieveTikaInformation = async (filePath) => {
     try {
-        const response = await axios.get("http://localhost:9998/");
-        console.log(response.data);
-    } catch (error){
-        console.error(error);
+        // Read File Content
+        const fileContent = fs.readFileSync(filePath, 'base64');
+
+        // Set up the headers
+        const headers = {
+            'Content-Type': 'application/octet-stream',
+            'Accept': 'text/plain',
+            'Content-Disposition': 'attachment; filename="important.docx"', // Set the filename explicitly
+        };
+
+        const response = await axios.put("http://localhost:9998/tika", Buffer.from(fileContent, 'base64'), {
+            headers,
+        });
+
+        console.log(`Tika server response:\n${response.data}`);
+    } catch (error) {
+        console.error("Error:", error.message);
     }
-}
+};
+
+retrieveTikaInformation(filePath);
 
 module.exports = {
-    retrieveTikaInformation
-}
+    retrieveTikaInformation,
+};
