@@ -25,7 +25,6 @@ const retrieveTikaInformation = async (filePath) => {
     }
 };
 
-retrieveTikaInformation(filePath);
 
 module.exports = {
     retrieveTikaInformation,
