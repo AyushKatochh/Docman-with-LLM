@@ -1,33 +1,25 @@
-const { ChromaClient } = require("chromadb");
-require('dotenv').config();
-
-const client = new ChromaClient();
-
-const { OpenAIEmbeddingFunction } = require("chromadb");
-
-const embedder = new OpenAIEmbeddingFunction({
-    openai_api_key: process.env.OPENAI_KEY
-})
+const { ChromaClient } = require('chromadb');
 
 const initializeCollection = async () => {
     try {
+        const client = new ChromaClient();
+        
         // Creating Collection
-        const collection = await client.createCollection({
-            name: "tika-collection",
-            embeddingFunction: embedder
-        })
+        const collection = await client.createCollection({ name: "documents" });
 
         // Add some text documents to the collection
         await collection.add({
-            ids: ["id1", "id2"],
-            metadatas: [{ source: "my_source" }, { source: "my_source" }],
-            documents: ["This is a document", "This is another document"]
-        })
+            ids: ["document_1", "document_2", "document_3"],
+            metadatas: [{ user: "Carl" }, { user: "Karen" }, { user: "Carl" }],
+            documents: ["Lorem Ipsum", "Dolurum Sanctorum", "Noctum Markum"],
+        });
 
+        // Query the collection
         const results = await collection.query({
-            nResults: 2,
-            queryTexts: ["This is a query document"]
-        })
+            nResults: 1,
+            where: { "user": "Carl" },
+            queryTexts: ["Nactum"],
+        });
 
         console.log(results);
     } catch (error) {
@@ -35,6 +27,9 @@ const initializeCollection = async () => {
     }
 };
 
+
+
+// Export the function for use in other files
 module.exports = {
-    initializeCollection
+    initializeCollection,
 };

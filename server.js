@@ -3,10 +3,11 @@ const express = require("express");
 const app = express();
 const {retrieveTikaInformation} = require("./axiosRequest");
 const { initializeCollection} = require("./db/database")
+const filePath = "C:/Users/katoc/Downloads/important.docx";
 
 // request to tika to send information
 app.get("/sendRequest", (req, res) => {
-   res.json(retrieveTikaInformation())
+   res.json(retrieveTikaInformation(filePath))
 })
 
 // Testing database 
