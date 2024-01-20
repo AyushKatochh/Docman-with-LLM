@@ -1,8 +1,8 @@
 // contentHeaders.js
 
-const path = require("path");
+import path from "path";
 
-const getContentHeaders = (filePath) => {
+export const getContentHeaders = (filePath) => {
     const contentType = getContentType(filePath);
 
     switch (contentType) {
@@ -41,4 +41,3 @@ const getContentType = (filePath) => {
     }
 };
 
-module.exports = getContentHeaders;

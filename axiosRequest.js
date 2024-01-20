@@ -1,11 +1,11 @@
 // axiosRequest.js
 
-const axios = require("axios");
-const fs = require("fs");
-const getContentHeaders = require("./contentHeaders");
+import axios  from "axios";
+import fs from "fs";
+import {getContentHeaders} from "./contentHeaders.js";
 
 
-const retrieveTikaInformation = async (filePath) => {
+export  const retrieveTikaInformation = async (filePath) => {
     try {
         // Read File Content
         const fileContent = fs.readFileSync(filePath);
@@ -23,6 +23,3 @@ const retrieveTikaInformation = async (filePath) => {
     }
 };
 
-module.exports = {
-    retrieveTikaInformation
-}

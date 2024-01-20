@@ -1,16 +1,10 @@
 // server.js
-const express = require("express");
+import express from "express";
 const app = express();
-const { retrieveTikaInformation } = require("./axiosRequest");
-const { ChromaClient } = require('chromadb');
-const { initializeEmbedder } = require("./db/database");
+import { retrieveTikaInformation }   from "./axiosRequest.js";
+import { initializeEmbedding } from "./db/database.js";
 
 const filePath = "C:/Users/katoc/Downloads/important.docx";
-
-// Initialize ChromaClient
-const client = new ChromaClient({
-  // Add your ChromaDB configuration here
-});
 
 // Request to Tika to send information
 app.get("/sendRequest", (req, res) => {
@@ -20,15 +14,12 @@ app.get("/sendRequest", (req, res) => {
 // Initialize Embedder and Collection on /database route
 app.get("/database", async (req, res) => {
   try {
-    const { embedder, embeddings, collection } = await initializeEmbedder(client);
+    await initializeEmbedding();
 
-    // Use 'embedder', 'embeddings', and 'collection' as needed
-    console.log(embeddings);
-
-    res.send("Embedder and Collection initialized successfully");
+    res.status(200).send("Embedding initialized successfully");
   } catch (error) {
-    console.error("Error initializing Embedder and Collection:", error.message);
-    res.status(500).send("Internal Server Error");
+    console.log("Error Initializing embedding:", error.message);
+    res.status(500).send("Internal Server Error")
   }
 });
 
