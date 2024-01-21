@@ -15,31 +15,46 @@ const embedder = new GoogleGenerativeAiEmbeddingFunction({
   googleApiKey: googleApiKey,
 });
 
-export async function initializeEmbedding(filePath) {
+export async function initializeEmbedding(filePath, collectionName = "Ayushk") {
   const client = new ChromaClient({ path: "http://localhost:8000" });
 
   try {
-    // Retrieve Tika information
+    // Retrieve Tika information and save it as an embedding
     const tikaResponseData = await retrieveTikaInformation(filePath);
-
-    // Generate embeddings
-    const embeddings = await embedder.generate(tikaResponseData);
+   
+    const embeddings = await embedder.generate([tikaResponseData])
     
-    // Log the generated embeddings to the console
-    console.log("Generated Embeddings:", embeddings);
+    console.log(embeddings);
+    // Check if the collection already exists
+    let collection;
 
-    // Create a new collection
-    console.log("Creating a new collection named 'ak47'.");
-    const collection = await client.createCollection({
-      name: "ak47",
-      embeddingFunction: embedder,
-    });
+    try {
+      const existingCollection = await client.getCollection({
+        name: collectionName,
+        embeddingFunction: embedder,
+      });
 
-    //DD
+      console.log(`Collection '${collectionName}' already exists. Using the existing collection.`);
+      collection = existingCollection;
+    } catch (error) {
+      if (error.message.includes("does not exist")) {
+        // Collection doesn't exist, create a new one
+        console.log(`Collection '${collectionName}' does not exist. Creating a new collection.`);
+
+        collection = await client.createCollection({
+          name: collectionName,
+          embeddingFunction: embedder,
+        });
+      } else {
+        // Other errors, rethrow
+        throw error;
+      }
+    }
+
     // Add data to the collection
     await collection.add({
       ids: ["doc1"],
-      embeddings: [embeddings], // Wrap embeddings in an array
+      embeddings: embeddings,
       documents: ["doc1"],
       metadatas: [{ "chapter": "3", "verse": "12" }],
     });
@@ -56,7 +71,8 @@ export async function initializeEmbedding(filePath) {
     });
 
     console.log("Query:", query);
-  } catch (error) {
+
+    } catch (error) {
     console.error("Error initializing embedding:", error.message);
   }
 }
