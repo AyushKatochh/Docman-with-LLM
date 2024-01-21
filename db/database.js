@@ -1,59 +1,80 @@
 import { ChromaClient, GoogleGenerativeAiEmbeddingFunction } from "chromadb";
 import dotenv from "dotenv";
+import { retrieveTikaInformation } from "../axiosRequest.js";
 
-// Load environment variables from .env file
 dotenv.config();
 
-// Retrieve Google API key from environment variable
 const googleApiKey = process.env.GOOGLE_API_KEY;
 
-// Check if the API key is defined
 if (!googleApiKey) {
   console.error("Google API key is not defined. Make sure to set it in the .env file.");
-  process.exit(1); // Exit the process with an error code
+  process.exit(1);
 }
 
 const embedder = new GoogleGenerativeAiEmbeddingFunction({
   googleApiKey: googleApiKey,
 });
 
-// Define an async function to use the await keyword
-export async function initializeEmbedding() {
+export async function initializeEmbedding(filePath, collectionName = "AyushKatoch") {
   const client = new ChromaClient({ path: "http://localhost:8000" });
-  let collection = await client.createCollection({
-    name: "Ayush21",
-    embeddingFunction: embedder,
-  });
 
-  await collection.add({
-    ids: ["doc1", "docs"],
-    embeddings: [[1.1, 2.3, 3.2], [4.5, 6.9, 4.4]],
-    documents: ["doc1", "doc2"],
-    metadatas: [{"chapter": "3", "verse": "12"}, {"chapter": "4", "verse": "5"},]
-  });
+  try {
+    // Retrieve Tika information and save it as an embedding
+    const tikaResponseData = await retrieveTikaInformation(filePath);
 
-  let count = collection.count();
-  console.log("Count: ", count);
+    const embeddingsPromise = embedder.generate([tikaResponseData])
+   
+    const embeddings = await embeddingsPromise;
 
-  // Retrieve the contents of the collection
-  const collectionGet = await client.getCollection({
-    name: "Ayush21",
-    embeddingFunction: embedder,
-  });
-  const collectionData = await collectionGet.peek();
+    console.log(embeddings);
+    // Check if the collection already exists
+    let collection;
 
-  // Log the data to the console
-  console.log("Collection Data:", collectionData);
+    try {
+      const existingCollection = await client.getCollection({
+        name: collectionName,
+        embeddingFunction: embedder,
+      });
 
-  const query = await collection.query({
-    queryTexts: ["doc1"],
-    nResults: 1,
-  });
+      console.log(`Collection '${collectionName}' already exists. Using the existing collection.`);
+      collection = existingCollection;
+    } catch (error) {
+      if (error.message.includes("does not exist")) {
+        // Collection doesn't exist, create a new one
+        console.log(`Collection '${collectionName}' does not exist. Creating a new collection.`);
 
-  console.log("query", query);
+        collection = await client.createCollection({
+          name: collectionName,
+          embeddingFunction: embedder,
+        });
+      } else {
+        // Other errors, rethrow
+        throw error;
+      }
+    }
 
-  const collections = await client.listCollections();
-  console.log("Collections", collections);
+    // Add data to the collection
+    await collection.add({
+      ids: ["doc1"],
+      embeddings: [embeddings], // Wrap embeddings in an array
+      documents: ["doc1"],
+      metadatas: [{ "chapter": "3", "verse": "12" }],
+    });
 
+    // Retrieve the contents of the collection
+    const collectionData = await collection.peek();
 
+    // Log the data to the console
+    console.log("Collection Data:", collectionData);
+
+    const query = await collection.query({
+      queryTexts: ["doc1"],
+      nResults: 1,
+    });
+
+    console.log("Query:", query);
+
+     } catch (error) {
+    console.error("Error initializing embedding:", error.message);
+  }
 }

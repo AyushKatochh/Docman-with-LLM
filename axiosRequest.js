@@ -18,8 +18,11 @@ export  const retrieveTikaInformation = async (filePath) => {
         });
 
         console.log(`Tika server response:\n${response.data}`);
+    
+        return response.data;
     } catch (error) {
         console.error("Error:", error.message);
+        throw error;
     }
 };
 

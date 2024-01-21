@@ -14,7 +14,7 @@ app.get("/sendRequest", (req, res) => {
 // Initialize Embedder and Collection on /database route
 app.get("/database", async (req, res) => {
   try {
-    await initializeEmbedding();
+    await initializeEmbedding(filePath);
 
     res.status(200).send("Embedding initialized successfully");
   } catch (error) {
