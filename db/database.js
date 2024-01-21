@@ -15,44 +15,27 @@ const embedder = new GoogleGenerativeAiEmbeddingFunction({
   googleApiKey: googleApiKey,
 });
 
-export async function initializeEmbedding(filePath, collectionName = "AyushKatoch") {
+export async function initializeEmbedding(filePath) {
   const client = new ChromaClient({ path: "http://localhost:8000" });
 
   try {
-    // Retrieve Tika information and save it as an embedding
+    // Retrieve Tika information
     const tikaResponseData = await retrieveTikaInformation(filePath);
 
-    const embeddingsPromise = embedder.generate([tikaResponseData])
-   
-    const embeddings = await embeddingsPromise;
+    // Generate embeddings
+    const embeddings = await embedder.generate(tikaResponseData);
+    
+    // Log the generated embeddings to the console
+    console.log("Generated Embeddings:", embeddings);
 
-    console.log(embeddings);
-    // Check if the collection already exists
-    let collection;
+    // Create a new collection
+    console.log("Creating a new collection named 'ak47'.");
+    const collection = await client.createCollection({
+      name: "ak47",
+      embeddingFunction: embedder,
+    });
 
-    try {
-      const existingCollection = await client.getCollection({
-        name: collectionName,
-        embeddingFunction: embedder,
-      });
-
-      console.log(`Collection '${collectionName}' already exists. Using the existing collection.`);
-      collection = existingCollection;
-    } catch (error) {
-      if (error.message.includes("does not exist")) {
-        // Collection doesn't exist, create a new one
-        console.log(`Collection '${collectionName}' does not exist. Creating a new collection.`);
-
-        collection = await client.createCollection({
-          name: collectionName,
-          embeddingFunction: embedder,
-        });
-      } else {
-        // Other errors, rethrow
-        throw error;
-      }
-    }
-
+    //DD
     // Add data to the collection
     await collection.add({
       ids: ["doc1"],
@@ -73,8 +56,7 @@ export async function initializeEmbedding(filePath, collectionName = "AyushKatoc
     });
 
     console.log("Query:", query);
-
-     } catch (error) {
+  } catch (error) {
     console.error("Error initializing embedding:", error.message);
   }
 }
