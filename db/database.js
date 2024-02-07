@@ -2,6 +2,8 @@ import { ChromaClient, GoogleGenerativeAiEmbeddingFunction } from "chromadb";
 import dotenv from "dotenv";
 import { retrieveTikaInformation } from "../axiosRequest.js";
 
+const filePath = "C:/Users/katoc/Downloads/important.docx";
+
 dotenv.config();
 
 const googleApiKey = process.env.GOOGLE_API_KEY;
@@ -21,11 +23,15 @@ export async function initializeEmbedding(filePath, collectionName = "Ayushk") {
   try {
     // Retrieve Tika information and save it as an embedding
     const tikaResponseData = await retrieveTikaInformation(filePath);
-   
-    const embeddings = await embedder.generate([tikaResponseData])
-    
-    console.log(embeddings);
-    // Check if the collection already exists
+    console.log(typeof(tikaResponseData));
+    // const embeddings = await embedder.generate([tikaResponseData]);
+    // let embeddingsList = Array.isArray(embeddings) ? embeddings : [embeddings];
+
+    // // Convert embeddingsList to a flat array
+    // const flatArray = embeddingsList.reduce((acc, curr) => acc.concat(curr), []);
+    // console.log(typeof flatArray, flatArray);
+
+    // // Check if the collection already exists
     let collection;
 
     try {
@@ -40,7 +46,6 @@ export async function initializeEmbedding(filePath, collectionName = "Ayushk") {
       if (error.message.includes("does not exist")) {
         // Collection doesn't exist, create a new one
         console.log(`Collection '${collectionName}' does not exist. Creating a new collection.`);
-
         collection = await client.createCollection({
           name: collectionName,
           embeddingFunction: embedder,
@@ -53,9 +58,7 @@ export async function initializeEmbedding(filePath, collectionName = "Ayushk") {
 
     // Add data to the collection
     await collection.add({
-      ids: ["doc1"],
-      embeddings: embeddings,
-      documents: ["doc1"],
+      documents: filePath,
       metadatas: [{ "chapter": "3", "verse": "12" }],
     });
 
@@ -66,13 +69,13 @@ export async function initializeEmbedding(filePath, collectionName = "Ayushk") {
     console.log("Collection Data:", collectionData);
 
     const query = await collection.query({
-      queryTexts: ["doc1"],
+      queryTexts: embeddingsList,
       nResults: 1,
     });
 
     console.log("Query:", query);
 
-    } catch (error) {
+  } catch (error) {
     console.error("Error initializing embedding:", error.message);
   }
 }

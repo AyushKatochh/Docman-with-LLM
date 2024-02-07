@@ -1,0 +1,223 @@
+MST 1
+
+Q1. Describe the advantages of combining different soft computing techniques
+Q2. Identify different Types of neural networks used in soft computing
+3. Interpret the hebbian learning rule
+4. Differentiate supervised and unsupervised learning in neural networks
+5. Classify the various types of soft computing techniques
+Section B
+6. Explain with next diagram supervised and unsupervised learning in NN
+7. Point out the merits and demerits of BPN 
+
+
+MST 2
+
+1. Describe the significance of convolutional layers and pooling layers in CNN 
+2. Explain linearly separable problem briefly with example
+3. Identify few activations function which are used in single and multilayer networks to calculate the output
+4. Discuss the advantage of auto encoder over Principal component analysis for dimensionality reduction
+5. Explain the working of Gated Recurrent Network
+6Show the graphical representation of sigmoid function and differentiate of the sigmoid function and comment of the result
+7. A hetero associative network is trained by hebbs outer product rule for input vector 
+
+Unit 1 Questions 
+
+1. What is soft in soft computing?
+2. Difference between hard and soft computing giving an example?
+3. Describe five applications of Soft computing?
+4. Discuss the main Domain of Soft computing?
+5. How neural networks can be used to solve real-time problems. Give any real-time application where NN are used. 
+6. What are different types of Neural Networks? 
+7. How ANN is trained? What is the role of the loss function in training a neural network?
+8. What are the activation functions
+9. How neural networks can be used to solve real-time problems. Give any real-time application where NN are used.
+10. What are different types of Neural Networks?
+11. What are the activation functions? How do activation functions introduce non-linearity into neural networks?
+12.  What is the best activation function that is used in most of the real-time problems? 
+13.  Which activation function can give output in the range between 0 -1. 
+14.  What are the challenges associated with vanishing and exploding gradients, and how do different activation functions address these issues?
+15.  How do we initialize the neural networks?
+16. Discuss the different types of Neural Network Architectures
+17. What are the broad types of learning in Neural Network
+18. Discuss the learning laws or rules
+19. Explain the Back Propagation network (BPN) and how it helps in minimization of error
+20. Discuss the training algorithm of BPN and use of stochastic gradient method in minimization of error
+21. Explain the concept of Adaline and Madaline with their architectures.
+22. Discuss the implementation of Adaline with taking data from Nand Gate
+Explain the perceptron model and architecture in detail. Also write the algorithm of the same
+23. Implementation of perceptron model with the AND gate
+
+Unit 2 Question 
+1. What is generalized delta rule and the updating of hidden layer and output layer?
+2.  What are the various applications of neural networks?
+3. State few activation functions which are used in single and multilayer network. 4.
+4. What is a loss function in the context of neural networks?
+5. Explain the concept of a cost function in machine learning, and how is it related to the loss function?
+6. Distinguish between Hopfield and iterative auto associative networks.
+7. What are linearly separable problems?
+8. Compare LSTM and gated recurrent units. 
+9. What is a Long Short-Term Memory (LSTM) network, and how does it address the vanishing gradient problem?
+10. Show the linearization of sigmoid function.
+11. Compare and Contrast stateful and stateless LSTMs.
+12. Define recurrent neural networks.
+13. Define Associative memory.
+14. Describe the significance of convolutional layer and pooling layer.
+15. Describe Bidirectional associative memory.
+16. Distinguish between recurrent and non-recurrent networks.
+17. Explain Hopfield memory in brief.
+18. Compare auto associative net and Hopfield net.
+19. Explain self-organization in brief.
+20. Distinguish between binary and bipolar sigmoid Function.
+21. Write in brief about convolution layer.
+22. Write some applications of CNN.
+23. Illustrate denoising Auto encoders.
+24. Write a short note on sparse auto encoders.
+25. Explain Suitability of various activation functions with respect to applications. 
+26. Illustrate the operations of pooling layer in CNN with simple example.
+27. Justify the advantages of auto encoders over principal component analysis for dimensionality reduction.
+28. Explain the working of gate recurrent unit.
+29. Show graphical representation of sigmoid activation function.
+30. Illustrate the significance of sigmoid activation function.
+31. Graphically, sketch the different Activation functions used in NN.
+32. Distinguish between Auto associative and heteroassociative Memory.
+33. Describe rectified linear units and their generalized form.
+34. Differentiate between Relu and Tanh Activation functions.
+35. Explain the Algorithm of discrete Hopfield network and its Architecture. 
+36. Analyse the roll of rectified linear units in hidden layers.
+37. Describe the characteristics of continuous Hopfield network.
+38. Illustrate Encoder – Decoder sequence –to-sequence Architecture.
+Q37. Find out the Net Input yin and final output Y of the network given below:
+[image: ]
+Q38. Calculate the net input for the network with bias included:
+
+[image: ]Q39 .  Obtain the output of the neuron Y for the network using the activation function.
+a) Binary Sigmoidal b) Bipolar Sigmoid 
+[image: ]
+
+Solutions: 
+
+[image: ][image: ][image: ][image: ][image: ][image: ][image: ]
+Unit 3 Questions 
+1. What are the limitations of fuzzy systems?
+2. Explain the methods of fuzzifications.
+3. What is core and boundary of membership function?
+4. Explain in detail the operations of fuzzy set
+5. Explain various operation on crisp relations
+6. What is Centre of gravity method of defuzzification?
+7. Explain with the help of block diagram the various components of Fuzzy logic system
+8. Distinguish fuzzy set and crisp set
+9. What’s the difference between fuzzy logic and binary logic
+10. Explain in detail any one defuzzification method with example
+11. What is the purpose of  fuzzification layer
+12. Discuss the methods of aggregation of fuzzy rules.
+13. Define fuzzy logic and its importance in our daily life. What is the role of crisp sets in fuzzy logic?
+14. Explain fuzzy implications ?Discuss the fuzzy controller
+15. What are advantages and disadvantages of GA?
+16. Outline the advantages of GA over Conventional algorithms
+17. Mention various types of cross over and mutation techniques
+18. State the difference selection methods of GA
+19. Name and Explain the role of Genetic operators in GA
+20. [bookmark: _GoBack]Define mutation and various types of mutation in GA
+21. Explain in detail different search techniques in GA
+22. Discuss in detail about the various operations of GA and search space
+
+Net Input, yin = b + x1Wi + x2W2 + x3W3
+=0.35 + 0.8*0.1 + 0.6*0.3 + 0.4*-0.2
+= 0.35 + 0.08 + 0.18 — 0.08
+= 0.61 — 0.08
+= 0.53
+
+@ Binary Sigmoidal Activation Function
+y =f (Vin)
+1
+
+ 
+
+- Tre7vin
+
+ 
+
+(ii) _ Bipolar Sigmoidal Activation Function
+
+y=f (Vin)
+2
+lte-yin
+
+ 
+
+=—2 _-1=0.259
+
+[$9053
+
+ 
+
+Solved Problems
+
+(1) For the network shown, calculate the net input to the output neuron.
+
+ 
+
+0-3
+
+ 
+
+Inputs, x1=0.3 X2=0.5 x3=0.6
+Weights, Wi=0.2 W2=0.1 W3=-0.3
+
+Net Input, yin = x1 Wit X2 W2 + x3 W3
+
+ 
+
+Net Input, yin = X1 Wi + X2 W2 + x3 W3
+= 0.3*0.2 + 0.5*0.1 + 0.6*-0.3
+= 0.06 + 0.05 — 0.18
+=0.11-0.18
+= -0.07
+
+(2) Calculate the net input for the network with bias included.
+
+ 
+
+ 
+
+Inputs, x1=0.2 x2=0.6
+Weights, W,=0.3 W.=0.7
+Net Input, yin = bias + x1 Wi+ x2 W2
+=0.45 + 0.2*0.3 + 0.6*0.7
+=0.45 + 0.06 + 0.42
+
+=0.93
+
+() For the network shown, calculate the net input to the output neuron.
+
+ 
+
+Inputs, xi=0.3 x05 x370.6
+
+Weights, Wir02 00 We=01
+
+ 
+
+ 
+
+ 
+
+Solved Problems
+(1) Obtain the output of the neuron Y for the network shown using activation function.
+(i) binary sigmoidal (ii) bipolar sigmoidal.
+
+ 
+
+Net Input, yin = b + x1Wi+ x2W2+ x3W3
+
+=0.35 + 0.8*0.1 + 0.6*0.3 + 0.4*-0.2
+
+Net Input, yin = b + x1Wi + x2W2 + x3W3
+=0.35 + 0.8*0.1 + 0.6*0.3 + 0.4*.
+= 0.35 + 0.08 + 0.18 — 0.08
+= 0.61 — 0.08
+= 0.53
+
+) Binary Sigmoidal Activation Function
+y =f (Vin)
+

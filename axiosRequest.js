@@ -1,11 +1,10 @@
 // axiosRequest.js
 
-import axios  from "axios";
+import axios from "axios";
 import fs from "fs";
-import {getContentHeaders} from "./contentHeaders.js";
+import { getContentHeaders } from "./contentHeaders.js";
 
-
-export  const retrieveTikaInformation = async (filePath) => {
+export const retrieveTikaInformation = async (filePath) => {
     try {
         // Read File Content
         const fileContent = fs.readFileSync(filePath);
@@ -17,12 +16,24 @@ export  const retrieveTikaInformation = async (filePath) => {
             headers,
         });
 
-        console.log(`Tika server response:\n${response.data}`);
-    
-        return response.data;
+        // Extract text from Tika response
+        const parsedText = response.data;
+
+        // Create a directory named "database" if it doesn't exist
+        const directoryPath = "./database";
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath);
+        }
+
+        // Write parsed text to a .txt file
+        const txtFilePath = `${directoryPath}/parsed_text.txt`;
+        fs.writeFileSync(txtFilePath, parsedText);
+
+        console.log(`Parsed text saved to: ${txtFilePath}`);
+
+        return txtFilePath;
     } catch (error) {
         console.error("Error:", error.message);
         throw error;
     }
 };
-
