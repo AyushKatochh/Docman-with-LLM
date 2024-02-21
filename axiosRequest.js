@@ -29,7 +29,7 @@ export const retrieveTikaInformation = async (filePath) => {
         const txtFilePath = `${directoryPath}/parsed_text.txt`;
         fs.writeFileSync(txtFilePath, parsedText);
 
-        console.log(`Parsed text saved to: ${txtFilePath}`);
+        console.log(`Parsed text saved to: ${parsedText}`);
 
         return txtFilePath;
     } catch (error) {
